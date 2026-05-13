@@ -1,0 +1,420 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================
+   NETFLIX-STYLE DESIGN SYSTEM
+   ========================================== */
+
+@layer base {
+  :root {
+    --background: 0 0% 8%;
+    --foreground: 0 0% 100%;
+
+    --card: 240 20% 10%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 240 20% 10%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 357 92% 47%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 20% 14%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 240 10% 18%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 189 100% 50%;
+    --accent-foreground: 0 0% 8%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 10% 20%;
+    --input: 240 10% 18%;
+    --ring: 357 92% 47%;
+
+    --chart-1: 357 92% 47%;
+    --chart-2: 189 100% 50%;
+    --chart-3: 270 60% 55%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 140 60% 45%;
+
+    --radius: 0.75rem;
+
+    /* Portal palette tokens */
+    --portal-black: #09090b;
+    --portal-dark: #18181b;
+    --portal-surface: #27272a;
+    --portal-primary: #8b5cf6;
+    --portal-primary-hover: #7c3aed;
+    --portal-cyan: #00d4ff;
+    --portal-text: #ffffff;
+    --portal-text-muted: #b3b3b3;
+    --portal-card-bg: rgba(24, 24, 27, 0.8);
+    --portal-glass: rgba(255, 255, 255, 0.05);
+    --portal-glass-border: rgba(255, 255, 255, 0.1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--portal-black);
+    color: var(--portal-text);
+    @apply antialiased;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--portal-black);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* ==========================================
+   COMPONENT UTILITIES
+   ========================================== */
+
+@layer components {
+  /* Glass card */
+  .glass-card {
+    background: var(--portal-card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--portal-glass-border);
+    border-radius: var(--radius);
+  }
+
+  /* Portal-style card with hover zoom */
+  .portal-card {
+    background: linear-gradient(145deg, rgba(30, 30, 35, 0.9), rgba(20, 20, 25, 0.95));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+  }
+
+  .portal-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(139, 92, 246, 0.5) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+    transition: opacity 0.5s ease;
+  }
+
+  .portal-card:hover {
+    box-shadow: 0 20px 40px rgba(139, 92, 246, 0.15), 0 0 40px rgba(0, 0, 0, 0.8);
+    border-color: rgba(139, 92, 246, 0.3);
+    z-index: 10;
+  }
+
+  .portal-card:hover::before {
+    opacity: 1;
+    background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(139, 92, 246, 1) 100%);
+  }
+
+  /* 3D Container Wrapper */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  /* Horizontal scrolling row */
+  .portal-row {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    padding: 20px 0;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .portal-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .portal-row > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  /* Hero gradient overlay */
+  .hero-gradient {
+    background: linear-gradient(
+      135deg,
+      rgba(20, 20, 20, 0.95) 0%,
+      rgba(26, 26, 46, 0.85) 40%,
+      rgba(139, 92, 246, 0.15) 100%
+    );
+  }
+
+  /* Portal-style button */
+  .portal-btn {
+    background: var(--portal-primary);
+    color: white;
+    font-weight: 600;
+    padding: 12px 28px;
+    border-radius: 6px;
+    border: none;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+  }
+
+  .portal-btn:hover {
+    background: var(--portal-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+  }
+
+  .portal-btn-outline {
+    background: transparent;
+    color: white;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 6px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.25s ease;
+    cursor: pointer;
+  }
+
+  .portal-btn-outline:hover {
+    border-color: white;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Glowing search input */
+  .search-glow {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.3s ease;
+  }
+
+  .search-glow:focus-within {
+    border-color: var(--portal-primary);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3), 0 0 40px rgba(139, 92, 246, 0.1);
+  }
+
+  /* Category chip */
+  .category-chip {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: white;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .category-chip:hover {
+    background: var(--portal-primary);
+    border-color: var(--portal-primary);
+    transform: scale(1.08);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+  }
+
+  /* Section title */
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: white;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--portal-primary);
+    border-radius: 2px;
+  }
+
+  /* Badge styles */
+  .portal-badge {
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .badge-cyan {
+    background: rgba(0, 212, 255, 0.15);
+    color: var(--portal-cyan);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+  }
+
+  .badge-red {
+    background: rgba(139, 92, 246, 0.15);
+    color: #ff6b6b;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+  }
+
+  .badge-purple {
+    background: rgba(114, 9, 183, 0.15);
+    color: #c77dff;
+    border: 1px solid rgba(114, 9, 183, 0.3);
+  }
+
+  .badge-green {
+    background: rgba(0, 200, 83, 0.15);
+    color: #69f0ae;
+    border: 1px solid rgba(0, 200, 83, 0.3);
+  }
+
+  /* Dark form inputs */
+  .dark-input {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+  }
+
+  .dark-input:focus {
+    border-color: var(--portal-primary) !important;
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2) !important;
+    outline: none !important;
+  }
+
+  .dark-input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  /* Filter sidebar */
+  .filter-sidebar {
+    background: linear-gradient(180deg, var(--portal-dark), rgba(22, 33, 62, 0.5));
+    border: 1px solid var(--portal-glass-border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+}
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.4);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Staggered children animation */
+.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.35s; }
+.stagger-children > *:nth-child(8) { animation-delay: 0.4s; }
+.stagger-children > *:nth-child(9) { animation-delay: 0.45s; }
+.stagger-children > *:nth-child(10) { animation-delay: 0.5s; }
+.stagger-children > *:nth-child(11) { animation-delay: 0.55s; }
+.stagger-children > *:nth-child(12) { animation-delay: 0.6s; }
+
+.stagger-children > * {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out forwards;
+}
